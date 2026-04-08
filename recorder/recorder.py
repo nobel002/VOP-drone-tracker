@@ -8,8 +8,8 @@ WINDOW_MS = 200     # Hoeveel milliseconden we tegelijkertijd tonen
 CHANNELS = 2
 # wss kan je gewoon Channels =4 nemen voor de vier microfoons.
 print(sd.query_devices())
-DEVICE1 = 0       #selecteer device
-DEVICE2 = 0
+DEVICE1 = 15       #selecteer device
+DEVICE2 = 16
 
 print('geeft theta in:')
 theta = float(input())
@@ -68,7 +68,7 @@ try:
         sd.sleep(1000)
         audio_data = np.hstack((audio_data1,audio_data2))
         fig,ax = plt.subplots(4)
-        np.save(filename, audio_data)
+        np.save(filename.replace(".", "-"), audio_data)
 
 
 except Exception as e:
