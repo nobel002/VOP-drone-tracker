@@ -22,6 +22,7 @@ def get_angles(data=data):
         dy = deltay(mics[i], mics[j]) if TDij < TDji else deltay(mics[j], mics[i])
         dz = deltaz(mics[i], mics[j]) if TDij < TDji else deltaz(mics[j], mics[i])
 
+        print(f"tau: {tau}, dx: {dx}, dy: {dy}, dz: {dz}" )
         stelsel.append(
             lambda theta, phi: dx * sin(theta) * cos(phi) + dy * sin(theta) * sin(phi) + dz * cos(theta) - tau * c)
 
@@ -35,8 +36,12 @@ def get_angles(data=data):
             theta *= -1
             phi += pi
 
-        print(f"theta: {theta}, phi: {phi}")
+        print(f"theta: {theta*180/pi}, phi: {phi*180/pi}")
         return theta, phi
     else:
         print("Couldn't find a solution :,(")
         return -1
+
+
+if __name__ == "__main__":
+    get_angles(data)

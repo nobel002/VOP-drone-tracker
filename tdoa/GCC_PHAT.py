@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-a = np.load('../recorder/audio_theta_90.0_phi_180.0.npy')
+a = np.load('../recorder/audio_theta_90.0_phi_180.0_new.npy')
 
 SAMPLERATE = 44100
 mic1 = a[:,0]
@@ -43,17 +43,25 @@ def calculate_ifft(freq_bins, freq_data, samplerate=SAMPLERATE):
 
 
 def get_TDOA(mic1, mic2, SAMPLERATE=SAMPLERATE):
-    bin1, X1 = calculate_fft(mic1, SAMPLERATE)
-    bin2, X2 = calculate_fft(mic3, SAMPLERATE)
+
+    # mic1 *= np.hanning(len(mic1))
+    # mic2 *= np.hanning(len(mic2))
+
+    X1 = np.fft.fft(mic1, SAMPLERATE)
+    X2 = np.fft.fft(mic3, SAMPLERATE)
 
     G = X1*np.conjugate(X2)
     G/=np.linalg.norm(G)
 
-    R = calculate_ifft(bin1,G)
+    R = np.fft.ifft(G)
     tau = np.argmax(R)
 
+    print(tau/SAMPLERATE)
+    plt.plot(np.abs(R[:]))
+    plt.show()
     return tau/SAMPLERATE
 
-# print(tau/SAMPLERATE)
-# plt.plot(((np.abs(R[:]))))
-# plt.show()
+
+get_TDOA(mic3, mic2, SAMPLERATE)
+
+
