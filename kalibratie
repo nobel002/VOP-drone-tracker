@@ -1,0 +1,16 @@
+def apply_calibration(audio, calibration_file=r"C:\Users\simon\OneDrive\Documenten\B.Ir 3\VOP\mic_calibration_data.npz"):
+    
+    cal = np.load(calibration_file)
+    gain = cal["gain"]
+    delays = cal["delays"]
+
+    # Gain correctie
+    audio = audio * gain
+
+    # Delay correctie
+    aligned = np.zeros_like(audio)
+
+    for i, d in enumerate(delays):
+        aligned[:, i] = np.roll(audio[:, i], -int(d))
+
+    return aligned
